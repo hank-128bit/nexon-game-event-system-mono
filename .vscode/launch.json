@@ -5,17 +5,61 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "gateway",
+      "name": "debug:gateway",
       "type": "node",
       "request": "launch",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["run", "start:gateway"],
-      "console": "integratedTerminal",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register",
+        "-r",
+        "tsconfig-paths/register"
+      ],
+      "args": ["apps/gateway/src/main.ts"],
+      "cwd": "${workspaceFolder}",
       "env": {
-        "NODE_ENV": "development"
+        "NODE_ENV": "development",
+        "TS_NODE_PROJECT": "apps/gateway/tsconfig.app.json"
       },
-      "outFiles": ["${workspaceFolder}/dist/apps/gateway/**/*.js"],
-      "sourceMaps": true
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "debug:auth",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register",
+        "-r",
+        "tsconfig-paths/register"
+      ],
+      "args": ["apps/auth/src/main.ts"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "NODE_ENV": "development",
+        "TS_NODE_PROJECT": "apps/auth/tsconfig.app.json"
+      },
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "debug:event",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "-r",
+        "ts-node/register",
+        "-r",
+        "tsconfig-paths/register"
+      ],
+      "args": ["apps/event/src/main.ts"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "NODE_ENV": "development",
+        "TS_NODE_PROJECT": "apps/event/tsconfig.app.json"
+      },
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }
