@@ -6,7 +6,12 @@
     "start:all": "nx run-many --target=serve --all",
     "start:gateway": "nx run gateway:serve",
     "start:auth": "nx run auth:serve",
-    "start:event": "nx run event:serve"
+    "start:event": "nx run event:serve",
+    "network:create": "./scripts/docker/docker-network-manager.sh create",
+    "network:remove": "./scripts/docker/docker-network-manager.sh remove",
+    "compose:up": "pnpm network:create && docker compose -f ./scripts/docker/docker-compose.infra.yml -p event-system-container up ",
+    "compose:down": "docker compose -p event-system-container down && pnpm network:remove",
+    "compose:downv": "docker compose -p event-system-container down -v && pnpm network:remove"
   },
   "private": true,
   "dependencies": {

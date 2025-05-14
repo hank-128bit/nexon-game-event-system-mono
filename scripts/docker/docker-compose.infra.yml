@@ -1,0 +1,75 @@
+version: '3.9'
+name: event-system-infra-container
+services:
+  mongo:
+    extends:
+      file: ./docker-compose.db.yml
+      service: mongo
+    networks:
+      - event-system-network
+  mongo-web:
+    extends:
+      file: ./docker-compose.db.yml
+      service: mongo-express
+    networks:
+      - event-system-network
+  redis:
+    extends:
+      file: ./docker-compose.redis.yml
+      service: redis
+    networks:
+      - event-system-network
+  zookeeper:
+    extends:
+      file: ./docker-compose.kafka.yml
+      service: zookeeper
+    networks:
+      - event-system-network
+  kafka-1:
+    extends:
+      file: ./docker-compose.kafka.yml
+      service: kafka-1
+    networks:
+      - event-system-network
+  kafka-2:
+    extends:
+      file: ./docker-compose.kafka.yml
+      service: kafka-2
+    networks:
+      - event-system-network
+  kafka-3:
+    extends:
+      file: ./docker-compose.kafka.yml
+      service: kafka-3
+    networks:
+      - event-system-network
+  schema-registry:
+    extends:
+      file: ./docker-compose.kafka.yml
+      service: schema-registry
+    networks:
+      - event-system-network
+  kafka-ui:
+    extends:
+      file: ./docker-compose.kafka.yml
+      service: kafka-ui
+    networks:
+      - event-system-network
+
+volumes:
+  mongo-data:
+    driver: local
+  mongo-express-data:
+    driver: local
+  zookeeper_data:
+    driver: local
+  kafka1_data:
+    driver: local
+  kafka2_data:
+    driver: local
+  kafka3_data:
+    driver: local
+
+networks:
+  event-system-network:
+    external: true
