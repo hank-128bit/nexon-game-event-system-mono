@@ -1,5 +1,5 @@
 {
-  "name": "@nexon-game-event-system-mono/gateway",
+  "name": "@nexon-game-event-system-mono/event",
   "version": "0.0.1",
   "private": true,
   "nx": {
@@ -28,15 +28,15 @@
           "build"
         ],
         "options": {
-          "buildTarget": "@nexon-game-event-system-mono/gateway:build",
+          "buildTarget": "@nexon-game-event-system-mono/event:build",
           "runBuildTargetDependencies": false
         },
         "configurations": {
           "development": {
-            "buildTarget": "@nexon-game-event-system-mono/gateway:build:development"
+            "buildTarget": "@nexon-game-event-system-mono/event:build:development"
           },
           "production": {
-            "buildTarget": "@nexon-game-event-system-mono/gateway:build:production"
+            "buildTarget": "@nexon-game-event-system-mono/event:build:production"
           }
         }
       }
