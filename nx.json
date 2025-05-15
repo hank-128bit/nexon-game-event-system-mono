@@ -23,7 +23,8 @@
           "buildDepsName": "build-deps",
           "watchDepsName": "watch-deps"
         }
-      }
+      },
+      "exclude": ["libs/database/*", "libs/constants/*"]
     },
     {
       "plugin": "@nx/webpack/plugin",
@@ -39,6 +40,15 @@
       "plugin": "@nx/eslint/plugin",
       "options": {
         "targetName": "lint"
+      }
+    },
+    {
+      "plugin": "@nx/js/typescript",
+      "include": ["libs/database/*", "libs/constants/*"],
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        }
       }
     }
   ]

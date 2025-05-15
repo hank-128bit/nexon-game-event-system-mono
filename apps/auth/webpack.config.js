@@ -1,20 +1,11 @@
-const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
-const { join } = require('path');
+const { composePlugins, withNx } = require('@nx/webpack');
+const path = require('path');
 
-module.exports = {
-  output: {
-    path: join(__dirname, 'dist'),
-  },
-  plugins: [
-    new NxAppWebpackPlugin({
-      target: 'node',
-      compiler: 'tsc',
-      main: './src/main.ts',
-      tsConfig: './tsconfig.app.json',
-      assets: ['./src/assets'],
-      optimization: false,
-      outputHashing: 'none',
-      generatePackageJson: true,
-    }),
-  ],
-};
+// Nx plugins for webpack.
+module.exports = composePlugins(withNx(), (config) => {
+  config.output.devtoolModuleFilenameTemplate = (info) => {
+    return path.resolve(info.absoluteResourcePath).replace(/\\/g, '/');
+  };
+
+  return config;
+});

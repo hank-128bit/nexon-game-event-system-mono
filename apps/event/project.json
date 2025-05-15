@@ -1,0 +1,46 @@
+{
+  "name": "@nexon-game-event-system-mono/event",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/event/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/event",
+        "main": "apps/event/src/main.ts",
+        "tsConfig": "apps/event/tsconfig.app.json",
+        "webpackConfig": "apps/event/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "@nexon-game-event-system-mono/event:build",
+        "host": "0.0.0.0",
+        "inspect": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "@nexon-game-event-system-mono/event:build:development"
+        },
+        "production": {
+          "buildTarget": "@nexon-game-event-system-mono/event:build:production"
+        }
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build --secret id=npmrc,src=$HOME/.npmrc -f apps/event/Dockerfile . -t event:latest"
+    }
+  }
+}
