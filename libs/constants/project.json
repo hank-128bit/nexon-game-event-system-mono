@@ -4,7 +4,7 @@
   "sourceRoot": "libs/constants/src",
   "projectType": "library",
   "targets": {
-    "build:lib": {
+    "build:libs": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
