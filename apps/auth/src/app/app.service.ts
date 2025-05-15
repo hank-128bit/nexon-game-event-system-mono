@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { AdminRoleMap } from '@libs/constants/index';
+
 @Injectable()
 export class AppService {
   getData(): { message: string } {
-    return { message: 'Hello API' };
+    const a = AdminRoleMap.ADMIN;
+    return { message: `${a}` };
   }
 }
