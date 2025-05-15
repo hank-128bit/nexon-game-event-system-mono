@@ -11,7 +11,8 @@
     "network:remove": "./scripts/docker/docker-network-manager.sh remove",
     "compose:up": "pnpm network:create && docker compose -f ./scripts/docker/docker-compose.infra.yml -p event-system-container up ",
     "compose:down": "docker compose -p event-system-container down && pnpm network:remove",
-    "compose:downv": "docker compose -p event-system-container down -v && pnpm network:remove"
+    "compose:downv": "docker compose -p event-system-container down -v && pnpm network:remove",
+    "k6:init": "./scripts/k6/initialize.sh"
   },
   "private": true,
   "dependencies": {
