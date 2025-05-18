@@ -20,15 +20,15 @@ export class AuthRouterController {
   @ApiResponse({
     status: 200,
     description: '관리자 로그인 성공',
-    type: BaseResponseBodyDTO<AdminLoginResponseDto>,
   })
   public async adminLogin(
     @Body() body: AdminLoginRequestDto
   ): Promise<BaseResponseBodyDTO<AdminLoginResponseDto>> {
     const result: AdminLoginResponseDto =
       await this.authRouterService.adminLogin(body);
+    console.log(result);
     return {
-      item: [result],
+      data: [result],
       status: 200,
     };
   }

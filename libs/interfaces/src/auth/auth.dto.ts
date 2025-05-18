@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BaseRequestDTO, BaseResponseBodyDTO } from '../base.dto';
+import { BaseRequestDTO } from '../base.dto';
 import { IsBoolean, IsString } from 'class-validator';
 
 export class AdminLoginRequestDto extends BaseRequestDTO {}

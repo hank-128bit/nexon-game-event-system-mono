@@ -1,11 +1,18 @@
-import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class BaseRequestDTO {}
 
 export class BaseResponseBodyDTO<T> {
   @IsNotEmpty()
-  item!: Array<T> | T;
+  @ApiProperty({
+    description: '응답 데이터',
+  })
+  data!: Array<T> | T;
 
   @IsNumber()
+  @ApiProperty({
+    description: '응답 상태 코드',
+  })
   status!: number;
 }
