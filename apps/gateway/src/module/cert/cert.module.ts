@@ -4,9 +4,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { ConfigService } from '@nestjs/config';
 
-/**
- * 로그인, 가입 API 등 게이트웨이 서비스 자체 인증 모듈
- */
 @Global()
 @Module({
   imports: [
