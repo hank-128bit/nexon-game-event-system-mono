@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthRouterService } from './auth.service';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
@@ -6,6 +6,8 @@ import {
   AdminLoginResponseDto,
 } from '@libs/interfaces/auth/auth.dto';
 import { BaseResponseBodyDTO } from '@libs/interfaces/base.dto';
+import { JwtAuthGuard } from '../../cert/jwt-auth.guard';
+import { VerifiedPayload } from '../../../common/decorator/payload.decorator';
 
 @Controller('auth')
 export class AuthRouterController {
@@ -21,11 +23,12 @@ export class AuthRouterController {
     status: 200,
     description: '관리자 로그인 성공',
   })
+  @UseGuards(JwtAuthGuard)
   public async adminLogin(
-    @Body() body: AdminLoginRequestDto
+    @VerifiedPayload() payload: AdminLoginRequestDto
   ): Promise<BaseResponseBodyDTO<AdminLoginResponseDto>> {
     const result: AdminLoginResponseDto =
-      await this.authRouterService.adminLogin(body);
+      await this.authRouterService.adminLogin(payload);
     console.log(result);
     return {
       data: [result],

@@ -9,8 +9,13 @@ export default () => {
     port: +process.env.AUTH_SERVER_PORT,
   };
 
+  const jwtConfig = {
+    secret: process.env.JWT_SECRET,
+  };
+
   return {
     stage,
     authServiceConfig,
+    jwtConfig,
   };
 };
