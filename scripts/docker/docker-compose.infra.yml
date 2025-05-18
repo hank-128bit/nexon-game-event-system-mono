@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 name: event-system-infra-container
 services:
   mongo:
@@ -11,6 +11,12 @@ services:
     extends:
       file: ./docker-compose.db.yml
       service: mongo-express
+    networks:
+      - event-system-network
+  mongo-init:
+    extends:
+      file: ./docker-compose.db.yml
+      service: mongo-replica-setup
     networks:
       - event-system-network
   redis:
@@ -73,3 +79,4 @@ volumes:
 networks:
   event-system-network:
     external: true
+    driver: bridge
