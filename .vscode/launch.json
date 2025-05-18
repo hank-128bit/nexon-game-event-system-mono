@@ -20,8 +20,12 @@
         "NODE_ENV": "development",
         "TS_NODE_PROJECT": "apps/gateway/tsconfig.app.json"
       },
+      "envFile": "${workspaceFolder}/apps/gateway/.env",
       "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**"]
+      "skipFiles": [
+        "<node_internals>/**",
+        "${workspaceFolder}/node_modules/**/*.js"
+      ]
     },
     {
       "name": "debug:auth",
@@ -39,8 +43,13 @@
         "NODE_ENV": "development",
         "TS_NODE_PROJECT": "apps/auth/tsconfig.app.json"
       },
+      "envFile": "${workspaceFolder}/apps/auth/.env",
       "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**"]
+      "autoAttachChildProcesses": true,
+      "skipFiles": [
+        "<node_internals>/**",
+        "${workspaceFolder}/node_modules/**/*.js"
+      ]
     },
     {
       "name": "debug:event",
@@ -58,8 +67,13 @@
         "NODE_ENV": "development",
         "TS_NODE_PROJECT": "apps/event/tsconfig.app.json"
       },
+      "envFile": "${workspaceFolder}/apps/event/.env",
       "console": "integratedTerminal",
-      "skipFiles": ["<node_internals>/**"]
+      "autoAttachChildProcesses": true,
+      "skipFiles": [
+        "<node_internals>/**",
+        "${workspaceFolder}/node_modules/**/*.js"
+      ]
     }
   ]
 }
