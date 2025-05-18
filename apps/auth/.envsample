@@ -1,0 +1,9 @@
+# Application
+PORT=3001
+
+# Database
+DB_HOST=localhost
+DB_PORT=27017
+DB_USERNAME=root
+DB_PASSWORD=sample
+DB_DATABASE=public

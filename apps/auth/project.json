@@ -1,0 +1,46 @@
+{
+  "name": "@nexon-game-event-system-mono/auth",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/auth/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/auth",
+        "main": "apps/auth/src/main.ts",
+        "tsConfig": "apps/auth/tsconfig.app.json",
+        "webpackConfig": "apps/auth/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "@nexon-game-event-system-mono/auth:build",
+        "host": "0.0.0.0",
+        "inspect": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "@nexon-game-event-system-mono/auth:build:development"
+        },
+        "production": {
+          "buildTarget": "@nexon-game-event-system-mono/auth:build:production"
+        }
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build --secret id=npmrc,src=$HOME/.npmrc -f apps/auth/Dockerfile . -t auth:latest"
+    }
+  }
+}

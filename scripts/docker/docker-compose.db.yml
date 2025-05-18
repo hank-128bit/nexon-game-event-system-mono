@@ -1,15 +1,13 @@
-version: '3.9'
+version: '3'
 
 services:
   mongo:
     image: mongo
-    restart: always
     ports:
       - 27017:27017
-    env_file:
-      - .env.compose.local
     volumes:
       - mongo-data:/data/db
+    command: mongod --replSet rs0 --bind_ip_all
 
   mongo-express:
     image: mongo-express
@@ -20,6 +18,15 @@ services:
       - .env.compose.local
     volumes:
       - mongo-express-data:/var/lib/mongo-express
+
+  mongo-replica-setup:
+    image: mongo
+    depends_on:
+      - mongo
+    volumes:
+      - ./initiate_mongo:/initiate_mongo
+    restart: 'no'
+    entrypoint: ['bash', '/initiate_mongo/initiate_replica.sh']
 
 volumes:
   mongo-data:

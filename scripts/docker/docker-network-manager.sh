@@ -4,7 +4,7 @@ NETWORK_NAME="event-system-network"
 if [ "$1" == "create" ]; then
     if [ ! "$(docker network ls | grep "$NETWORK_NAME")" ]; then
         echo "Creating "$NETWORK_NAME""
-        docker network create "$NETWORK_NAME"
+        docker network create --driver=bridge "$NETWORK_NAME"
     else
         echo ""$NETWORK_NAME" already exists"
     fi

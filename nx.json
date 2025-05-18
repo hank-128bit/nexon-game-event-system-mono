@@ -9,7 +9,6 @@
     ],
     "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml"]
   },
-  "nxCloudId": "6824967d6dacbd4d68933543",
   "plugins": [
     {
       "plugin": "@nx/js/typescript",
@@ -23,7 +22,8 @@
           "buildDepsName": "build-deps",
           "watchDepsName": "watch-deps"
         }
-      }
+      },
+      "exclude": ["libs/database/*", "libs/constants/*"]
     },
     {
       "plugin": "@nx/webpack/plugin",
@@ -40,6 +40,23 @@
       "options": {
         "targetName": "lint"
       }
+    },
+    {
+      "plugin": "@nx/js/typescript",
+      "include": ["libs/database/*", "libs/constants/*"],
+      "options": {
+        "typecheck": {
+          "targetName": "typecheck"
+        }
+      }
     }
-  ]
+  ],
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nx/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "test", "lint"]
+      }
+    }
+  }
 }
