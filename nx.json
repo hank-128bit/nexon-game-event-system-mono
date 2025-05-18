@@ -23,7 +23,7 @@
           "watchDepsName": "watch-deps"
         }
       },
-      "exclude": ["libs/database/*", "libs/constants/*"]
+      "exclude": ["libs/database/*", "libs/constants/*", "libs/interfaces/*"]
     },
     {
       "plugin": "@nx/webpack/plugin",
@@ -43,7 +43,7 @@
     },
     {
       "plugin": "@nx/js/typescript",
-      "include": ["libs/database/*", "libs/constants/*"],
+      "include": ["libs/database/*", "libs/constants/*", "libs/interfaces/*"],
       "options": {
         "typecheck": {
           "targetName": "typecheck"

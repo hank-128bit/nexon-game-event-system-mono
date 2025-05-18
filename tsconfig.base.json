@@ -17,7 +17,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@libs/constants/*": ["libs/constants/src/*"]
+      "@libs/constants/*": ["libs/constants/src/*"],
+      "@libs/database/*": ["libs/database/src/*"],
+      "@libs/interfaces/*": ["libs/interfaces/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
