@@ -1,12 +1,10 @@
 import { Controller } from '@nestjs/common';
 import { EventPattern, MessagePattern } from '@nestjs/microservices';
+import {
+  SigninRequest,
+  SigninResponse,
+} from '@libs/interfaces/signin/signin.interface';
 
-interface SigninRequest {
-  email: string;
-}
-interface SigninResponse {
-  token: string;
-}
 @Controller()
 export class AuthorizationController {
   @MessagePattern('signin')
