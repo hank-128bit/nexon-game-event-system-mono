@@ -4,7 +4,7 @@ import { IsBoolean, IsString } from 'class-validator';
 
 export class AdminLoginRequestDto extends BaseRequestDTO {}
 
-export class AdminLoginResponseDto extends BaseResponseBodyDTO<AdminLoginRequestDto> {
+export class AdminLoginResponseDto {
   @ApiProperty({
     description: '계정 ID',
   })

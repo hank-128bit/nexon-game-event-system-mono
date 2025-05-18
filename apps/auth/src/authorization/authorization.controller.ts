@@ -1,20 +1,20 @@
 import { Controller } from '@nestjs/common';
-import { EventPattern, MessagePattern } from '@nestjs/microservices';
+import { MessagePattern } from '@nestjs/microservices';
 import {
-  SigninRequest,
-  SigninResponse,
-} from '@libs/interfaces/signin/signin.interface';
+  AdminLoginRequestDto,
+  AdminLoginResponseDto,
+} from '@libs/interfaces/auth/auth.dto';
 
 @Controller()
 export class AuthorizationController {
-  @MessagePattern('signin')
-  async signin(param: SigninRequest): Promise<SigninResponse> {
+  @MessagePattern('adminLogin')
+  async signin(param: AdminLoginRequestDto): Promise<AdminLoginResponseDto> {
     console.log(param);
-    return { token: 'aaaa' };
-  }
-
-  @EventPattern('signup')
-  async handleSignupEvent(data: Record<string, unknown>) {
-    return {};
+    const result: AdminLoginResponseDto = {
+      id: '',
+      isNewUser: false,
+      token: '',
+    };
+    return result;
   }
 }

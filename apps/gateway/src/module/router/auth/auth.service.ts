@@ -23,7 +23,7 @@ export class AuthRouterService implements OnModuleInit {
   async adminLogin(
     param: AdminLoginRequestDto
   ): Promise<AdminLoginResponseDto> {
-    const pattern = 'admin.login';
+    const pattern = 'adminLogin';
     const payload = {
       email: 'hskim@mail.com',
     };

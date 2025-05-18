@@ -1,13 +1,11 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 
 export class BaseRequestDTO {}
 
-class ResponseItem<T> {
-  @IsOptional()
-  item?: T[] | object;
-}
-
 export class BaseResponseBodyDTO<T> {
   @IsNotEmpty()
-  items?: ResponseItem<T>;
+  item!: Array<T> | T;
+
+  @IsNumber()
+  status!: number;
 }

@@ -5,6 +5,7 @@ import {
   AdminLoginRequestDto,
   AdminLoginResponseDto,
 } from '@libs/interfaces/auth/auth.dto';
+import { BaseResponseBodyDTO } from '@libs/interfaces/base.dto';
 
 @Controller('auth')
 export class AuthRouterController {
@@ -19,11 +20,16 @@ export class AuthRouterController {
   @ApiResponse({
     status: 200,
     description: '관리자 로그인 성공',
-    type: AdminLoginResponseDto,
+    type: BaseResponseBodyDTO<AdminLoginResponseDto>,
   })
   public async adminLogin(
     @Body() body: AdminLoginRequestDto
-  ): Promise<AdminLoginResponseDto> {
-    return this.authRouterService.adminLogin(body);
+  ): Promise<BaseResponseBodyDTO<AdminLoginResponseDto>> {
+    const result: AdminLoginResponseDto =
+      await this.authRouterService.adminLogin(body);
+    return {
+      item: [result],
+      status: 200,
+    };
   }
 }
