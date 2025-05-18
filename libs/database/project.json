@@ -1,17 +1,17 @@
 {
-  "name": "constants",
+  "name": "database",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/constants/src",
+  "sourceRoot": "libs/database/src",
   "projectType": "library",
   "targets": {
     "build:libs": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/constants",
-        "main": "libs/constants/src/index.ts",
-        "tsConfig": "libs/constants/tsconfig.lib.json",
-        "assets": ["libs/constants/*.md"],
+        "outputPath": "dist/libs/database",
+        "main": "libs/database/src/index.ts",
+        "tsConfig": "libs/database/tsconfig.lib.json",
+        "assets": ["libs/database/*.md"],
         "rootDir": "./"
       }
     }
