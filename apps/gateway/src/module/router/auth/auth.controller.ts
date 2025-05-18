@@ -1,0 +1,29 @@
+import { Body, Controller, Post } from '@nestjs/common';
+import { AuthRouterService } from './auth.service';
+import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+  AdminLoginRequestDto,
+  AdminLoginResponseDto,
+} from '@libs/interfaces/auth/auth.dto';
+
+@Controller('auth')
+export class AuthRouterController {
+  constructor(private readonly authRouterService: AuthRouterService) {}
+
+  @Post('admin_login')
+  @ApiOperation({
+    summary: '관리자 로그인 API',
+    description: '인증 토큰 발급',
+  })
+  @ApiBody({ type: AdminLoginRequestDto })
+  @ApiResponse({
+    status: 200,
+    description: '관리자 로그인 성공',
+    type: AdminLoginResponseDto,
+  })
+  public async adminLogin(
+    @Body() body: AdminLoginRequestDto
+  ): Promise<AdminLoginResponseDto> {
+    return this.authRouterService.adminLogin(body);
+  }
+}
