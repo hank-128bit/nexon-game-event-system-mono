@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AppController } from './app.controller';
+import { ConfigModule } from '@nestjs/config';
 import { AppService } from './app.service';
-import { Transport, ClientsModule } from '@nestjs/microservices';
 import configuration from '../config/configuration';
+import { AuthRouterModule } from '../module/router/auth/auth.module';
+import { ClientProxyModule } from '../module/proxy/proxy.module';
 
 @Module({
   imports: [
@@ -11,24 +11,14 @@ import configuration from '../config/configuration';
       isGlobal: true,
       load: [configuration],
     }),
-    ClientsModule.registerAsync([
-      {
-        imports: [ConfigModule],
-        name: 'AUTH_SERVICE',
-        useFactory: async (configService: ConfigService) => {
-          return {
-            transport: Transport.TCP,
-            options: {
-              host: configService.get<string>('authServiceConfig.host'),
-              port: configService.get<number>('authServiceConfig.port'),
-            },
-          };
-        },
-        inject: [ConfigService],
-      },
-    ]),
+
+    /** Client Proxy for Microservice */
+    ClientProxyModule,
+
+    /** Router */
+    AuthRouterModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [AppService],
 })
 export class AppModule {}
