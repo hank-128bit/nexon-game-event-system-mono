@@ -1,0 +1,8 @@
+ENV_NAME=local
+
+# Application
+PORT=5001
+
+# Database
+DB_URI=mongodb://localhost:27017
+DB_DATABASE=public
