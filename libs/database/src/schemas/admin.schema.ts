@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument } from 'mongoose';
-import { AdminRole } from '@libs/constants/index';
+import { AdminRole, AdminRoleMap } from '@libs/constants/index';
 
 export type AdminDocument = HydratedDocument<Admin>;
 
@@ -15,7 +15,7 @@ export class Admin extends Document {
   @Prop({ type: String, required: true })
   name!: string;
 
-  @Prop({ type: Number, required: true })
+  @Prop({ type: Number, required: true, default: AdminRoleMap.NONE })
   role!: AdminRole;
 
   @Prop({ type: Date, default: null })
