@@ -10,6 +10,11 @@ export default () => {
     port: +process.env.AUTH_SERVER_PORT,
   };
 
+  const eventServiceConfig = {
+    host: process.env.EVENT_SERVER_HOST || 'localhost',
+    port: +process.env.EVENT_SERVER_PORT,
+  };
+
   const jwtConfig = {
     secret: process.env.JWT_SECRET,
   };
@@ -29,6 +34,7 @@ export default () => {
   return {
     stage,
     authServiceConfig,
+    eventServiceConfig,
     jwtConfig,
     redisConfig,
   };

@@ -21,6 +21,22 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
         inject: [ConfigService],
       },
     ]),
+    ClientsModule.registerAsync([
+      {
+        imports: [ConfigModule],
+        name: 'EVENT_SERVICE',
+        useFactory: async (configService: ConfigService) => {
+          return {
+            transport: Transport.TCP,
+            options: {
+              host: configService.get<string>('eventServiceConfig.host'),
+              port: configService.get<number>('eventServiceConfig.port'),
+            },
+          };
+        },
+        inject: [ConfigService],
+      },
+    ]),
   ],
   exports: [ClientsModule],
 })
