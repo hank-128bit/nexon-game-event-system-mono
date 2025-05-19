@@ -13,6 +13,7 @@ import {
   UpdateRoleRequestDto,
   UpdateRoleResponseDto,
 } from '@libs/interfaces/auth/update_role.dto';
+import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
 
 @Injectable()
 export class AuthRouterService {
@@ -39,7 +40,7 @@ export class AuthRouterService {
   }
 
   async updateRole(
-    param: UpdateRoleRequestDto
+    param: ITokenPayload & UpdateRoleRequestDto
   ): Promise<UpdateRoleResponseDto> {
     const pattern = 'updateRole';
     const result = await firstValueFrom(

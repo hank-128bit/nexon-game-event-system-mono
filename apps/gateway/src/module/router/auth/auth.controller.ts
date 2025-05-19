@@ -15,6 +15,8 @@ import {
   UpdateRoleRequestDto,
   UpdateRoleResponseDto,
 } from '@libs/interfaces/auth/update_role.dto';
+import { VerifiedPayload } from '../../../common/decorator/payload.decorator';
+import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
 
 @Controller('auth')
 export class AuthRouterController {
@@ -75,10 +77,15 @@ export class AuthRouterController {
   })
   @AdminAPI()
   public async updateRole(
+    @VerifiedPayload() payload: ITokenPayload,
     @Body() body: UpdateRoleRequestDto
   ): Promise<UpdateRoleResponseDto> {
+    const param: ITokenPayload & UpdateRoleRequestDto = {
+      ...body,
+      ...payload,
+    };
     const response: UpdateRoleResponseDto =
-      await this.authRouterService.updateRole(body);
+      await this.authRouterService.updateRole(param);
     return response;
   }
 }

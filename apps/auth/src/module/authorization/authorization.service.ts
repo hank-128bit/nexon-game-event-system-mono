@@ -9,6 +9,7 @@ import { comparePassword, hashPassword } from '../../common/util/hash/hash';
 import { JwtService } from '@nestjs/jwt';
 import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
 import { ConfigService } from '@nestjs/config';
+import { UpdateRoleRequestDto } from '@libs/interfaces/auth/update_role.dto';
 
 @Injectable()
 export class AuthorizationService {
@@ -82,5 +83,31 @@ export class AuthorizationService {
       role: AdminRoleMap.NONE,
     });
     return dto;
+  }
+
+  async updateRole(
+    param: ITokenPayload & UpdateRoleRequestDto
+  ): Promise<Admin> {
+    const target = await this.adminModelService.findByEmail(param.targetEmail);
+    if (!target) {
+      throw new AuthServiceError(
+        '유효하지 않은 이메일입니다.',
+        HttpStatus.FORBIDDEN
+      );
+    }
+    /** 최고 관리자만 설정할 수 있도록 가정 (Gateway에서 검증 보장) */
+    /** 자신의 권한 이상 계정 업데이트 불가 */
+    if (target.role >= param.role) {
+      throw new AuthServiceError(
+        '상대방의 권한을 업데이트할 수 없습니다.',
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+
+    target.role = param.targetRole;
+    const admin = await target.save();
+    /** TODO: Audit Log (Kafka) */
+
+    return admin;
   }
 }
