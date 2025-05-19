@@ -15,6 +15,7 @@ import { JwtAuthGuard } from './common/guard/jwt-auth.guard';
 import { ErrorFilter } from './common/filter/error.filter';
 import { RedisModule } from '@libs/redis/redis.module';
 import { RedisOptions } from '@libs/redis/interfaces/redis-options.interface';
+import { RpcResponseInterceptor } from './common/interceptor/rpc.response.interceptor';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { RedisOptions } from '@libs/redis/interfaces/redis-options.interface';
       useClass: AuthCompositeGuard,
     },
     { provide: APP_INTERCEPTOR, useClass: RoleInterceptor },
+    { provide: APP_INTERCEPTOR, useClass: RpcResponseInterceptor },
     { provide: APP_FILTER, useClass: ErrorFilter },
   ],
 })

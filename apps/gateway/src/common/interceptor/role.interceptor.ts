@@ -17,7 +17,10 @@ export class RoleInterceptor implements NestInterceptor {
     const ctx = this.contextStore.getContext();
 
     const isAvailable = ctx.get('isAvailable');
-    const allowedApi = ['/api/auth/admin_login'];
+    const allowedApi = [
+      '/api/auth/admin_login',
+      '/api/auth/admin_registration',
+    ];
 
     if (!allowedApi.includes(request.path) && !isAvailable) {
       throw new UnauthorizedException();
