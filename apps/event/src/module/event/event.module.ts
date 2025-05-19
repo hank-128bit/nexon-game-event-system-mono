@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AuthorizationController } from './authorization.controller';
-import { AuthorizationService } from './authorization.service';
+import { EventController } from './event.controller';
+import { EventService } from './event.service';
 import { AdminModelModule } from '@libs/database/model/admin/admin.model.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PlayerModelModule } from '@libs/database/model/player/player.model.module';
+import { EventModelModule } from '@libs/database/model/event/event.model.module';
 
 @Module({
   imports: [
@@ -16,9 +17,10 @@ import { PlayerModelModule } from '@libs/database/model/player/player.model.modu
     }),
     AdminModelModule,
     PlayerModelModule,
+    EventModelModule,
   ],
-  controllers: [AuthorizationController],
-  providers: [AuthorizationService],
-  exports: [AuthorizationService],
+  controllers: [EventController],
+  providers: [EventService],
+  exports: [EventService],
 })
-export class AuthorizationModule {}
+export class EventModule {}

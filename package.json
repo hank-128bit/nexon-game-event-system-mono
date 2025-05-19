@@ -48,6 +48,7 @@
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
+    "@typegoose/auto-increment": "^4.13.0",
     "@types/bcrypt": "^5.0.2",
     "@types/lodash": "^4.17.16",
     "@types/node": "~18.16.9",

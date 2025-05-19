@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -24,12 +24,12 @@ import { ErrorFilter } from './common/filter/error.filter';
         readPreference: 'primary',
         retryWrites: false,
         replicaSet: 'rs0',
+        maxPoolSize: 20,
       }),
     }),
 
     AuthorizationModule,
   ],
-  controllers: [AppController],
   providers: [
     AppService,
     {

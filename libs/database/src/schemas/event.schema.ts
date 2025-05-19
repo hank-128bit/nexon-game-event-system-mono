@@ -8,9 +8,9 @@ import {
 
 export type EventDocument = HydratedDocument<Event>;
 
-@Schema({ timestamps: true })
+@Schema({ versionKey: false, timestamps: true })
 export class Event extends Document {
-  @Prop({ type: Number, index: true, required: true })
+  @Prop({ type: Number, index: true, unique: true })
   eventId!: number;
 
   @Prop({ type: String, required: true })
@@ -26,10 +26,10 @@ export class Event extends Document {
   creator!: string;
 
   @Prop({ type: Boolean, default: false })
-  isActive!: boolean;
+  isActive?: boolean;
 
   @Prop({ type: Number, default: RewardReceiveMap.MANUAL })
-  rewardReceiveType!: RewardReceiveType;
+  rewardReceiveType?: RewardReceiveType;
 
   @Prop({ type: Object, default: {} })
   metadata!: Record<string, any>;
