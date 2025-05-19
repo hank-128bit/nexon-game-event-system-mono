@@ -3,6 +3,10 @@ ENV_NAME=local
 # Application
 PORT=4001
 
+# JWT
+JWT_SECRET=""
+JWT_EXPIRE=8h
+
 # Database
 DB_URI=mongodb://localhost:27017
 DB_DATABASE=public
