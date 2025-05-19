@@ -10,11 +10,15 @@ import { JwtService } from '@nestjs/jwt';
 import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
 import { ConfigService } from '@nestjs/config';
 import { UpdateRoleRequestDto } from '@libs/interfaces/auth/update_role.dto';
+import { PlayerLoginRequestDto } from '@libs/interfaces/auth/player_login.dto';
+import { Player } from '@libs/database/schemas/player.schema';
+import { PlayerModelService } from '../database/model/player/player.model.service';
 
 @Injectable()
 export class AuthorizationService {
   constructor(
     private readonly adminModelService: AdminModelService,
+    private readonly playerModelService: PlayerModelService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService
   ) {}
@@ -109,5 +113,41 @@ export class AuthorizationService {
     /** TODO: Audit Log (Kafka) */
 
     return admin;
+  }
+
+  async loginPlayer(
+    param: PlayerLoginRequestDto
+  ): Promise<Partial<Player> & { token: string }> {
+    let player = await this.playerModelService.findByNickname(param.nickname);
+    /** 닉네임 계정이 없으면 가입 */
+    if (!player) {
+      player = await this.playerModelService.create({
+        nickname: param.nickname,
+        password: await hashPassword(param.password),
+      });
+    }
+
+    const isPasswordValid = await comparePassword(
+      param.password,
+      player.password
+    );
+    if (!isPasswordValid) {
+      throw new AuthServiceError(
+        '비밀번호를 확인해주세요.',
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+
+    const payload: Partial<ITokenPayload> = {
+      id: player.id,
+      email: '',
+      name: player.nickname,
+    };
+    const token = this.jwtService.sign(payload, {
+      expiresIn: this.configService.get('jwtExpiresIn'),
+    });
+
+    const playerObject = player.toObject({ virtuals: true });
+    return { ...playerObject, token };
   }
 }
