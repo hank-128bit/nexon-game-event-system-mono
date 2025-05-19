@@ -1,8 +1,6 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import {
-  AdminLoginRequestDto,
-  AdminRegRequestDto,
-} from '@libs/interfaces/auth/auth.dto';
+import { AdminLoginRequestDto } from '@libs/interfaces/auth/admin_login.dto';
+import { AdminRegRequestDto } from '@libs/interfaces/auth/admin_registration.dto';
 import { AdminRoleMap } from '@libs/constants/admin.role';
 import { AdminModelService } from '../database/model/admin/admin.model.service';
 import { AuthServiceError } from '../../common/error/auth_service.error';

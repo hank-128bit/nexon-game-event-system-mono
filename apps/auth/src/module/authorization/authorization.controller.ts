@@ -3,9 +3,11 @@ import { MessagePattern } from '@nestjs/microservices';
 import {
   AdminLoginRequestDto,
   AdminLoginResponseDto,
+} from '@libs/interfaces/auth/admin_login.dto';
+import {
   AdminRegRequestDto,
   AdminRegResponseDto,
-} from '@libs/interfaces/auth/auth.dto';
+} from '@libs/interfaces/auth/admin_registration.dto';
 import { AuthorizationService } from './authorization.service';
 import { Admin } from '@libs/database/schemas/admin.schema';
 
