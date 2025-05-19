@@ -19,7 +19,7 @@ export class ErrorFilter implements ExceptionFilter {
     const formatErrorResponse = (
       message: string,
       code = 500,
-      service = 'auth'
+      service = 'event'
     ) => ({
       error: {
         message,
@@ -29,12 +29,12 @@ export class ErrorFilter implements ExceptionFilter {
     });
 
     if (exception instanceof EventServiceError) {
-      this.logger.warn(`[Handled AuthServiceError] ${exception.message}`);
+      this.logger.warn(`[Handled EventServiceError] ${exception.message}`);
 
       return formatErrorResponse(
         exception.message,
         exception.code,
-        exception.service || 'auth'
+        exception.service || 'event'
       );
     }
 
