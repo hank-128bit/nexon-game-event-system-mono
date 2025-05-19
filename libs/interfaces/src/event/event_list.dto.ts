@@ -5,7 +5,7 @@ import { Event } from '@libs/database/schemas/event.schema';
 
 export class EventListRequestDto extends BaseRequestDTO {
   @ApiProperty({
-    description: '페이지 인덱스',
+    description: '페이지 인덱스 (0부터 시작)',
   })
   @IsNumber()
   pageIndex!: number;
@@ -28,6 +28,12 @@ export class EventListResponseDto {
   })
   @IsNumber()
   pageIndex!: number;
+
+  @ApiProperty({
+    description: '페이지당 갯수',
+  })
+  @IsNumber()
+  countPerPage!: number;
 
   @ApiProperty({
     description: '총 이벤트 갯수',

@@ -8,9 +8,9 @@ import {
 
 export type EventDocument = HydratedDocument<Event>;
 
-@Schema({ timestamps: true })
+@Schema({ versionKey: false, timestamps: true })
 export class Event extends Document {
-  @Prop({ type: Number, index: true, required: true })
+  @Prop({ type: Number, index: true, unique: true })
   eventId!: number;
 
   @Prop({ type: String, required: true })

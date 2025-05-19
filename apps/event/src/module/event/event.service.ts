@@ -25,13 +25,15 @@ export class EventService {
     const pageSize = 20;
     const skip = param.pageIndex * pageSize;
     const totalCount = await this.eventModelService.countDocuments();
-    const items = await this.eventModelService.findAll(
-      {},
-      { skip, limit: pageSize, sort: { eventId: 0 } }
-    );
 
+    const items = await this.eventModelService.findAll({}, null, {
+      skip,
+      limit: pageSize,
+      sort: { eventId: -1 },
+    });
     return {
       items,
+      countPerPage: pageSize,
       hasNextPage: skip + pageSize < totalCount,
       pageIndex: param.pageIndex,
       totalCount,
