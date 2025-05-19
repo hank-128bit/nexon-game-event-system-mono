@@ -3,8 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthorizationModule } from '../module/authorization/authorization.module';
-import configuration from '../config/configuration';
+import { AuthorizationModule } from './module/authorization/authorization.module';
+import configuration from './config/configuration';
 
 @Module({
   imports: [
