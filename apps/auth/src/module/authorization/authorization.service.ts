@@ -1,18 +1,73 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { AdminRegRequestDto } from '@libs/interfaces/auth/auth.dto';
+import {
+  AdminLoginRequestDto,
+  AdminRegRequestDto,
+} from '@libs/interfaces/auth/auth.dto';
 import { AdminRoleMap } from '@libs/constants/admin.role';
 import { AdminModelService } from '../database/model/admin/admin.model.service';
 import { AuthServiceError } from '../../common/error/auth_service.error';
+import { Admin } from '@libs/database/schemas/admin.schema';
+import { comparePassword, hashPassword } from '../../common/util/hash/hash';
+import { JwtService } from '@nestjs/jwt';
+import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthorizationService {
-  constructor(private readonly adminModelService: AdminModelService) {}
+  constructor(
+    private readonly adminModelService: AdminModelService,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService
+  ) {}
 
-  async signin() {
-    return;
+  async signin(
+    param: AdminLoginRequestDto
+  ): Promise<Partial<Admin> & { token: string; isNewUser: boolean }> {
+    const admin = await this.adminModelService.findByEmail(param.email);
+    if (!admin) {
+      throw new AuthServiceError(
+        '유효하지 않은 이메일입니다.',
+        HttpStatus.FORBIDDEN
+      );
+    }
+
+    const isPasswordValid = await comparePassword(
+      param.password,
+      admin.password
+    );
+    if (!isPasswordValid) {
+      throw new AuthServiceError(
+        '비밀번호를 확인해주세요.',
+        HttpStatus.UNAUTHORIZED
+      );
+    }
+
+    let isNewUser = false;
+    if (!admin.accessAt) {
+      isNewUser = true;
+    }
+
+    const payload: ITokenPayload = {
+      id: admin.id,
+      email: admin.email,
+      name: admin.name,
+      role: admin.role,
+    };
+    const token = this.jwtService.sign(payload, {
+      expiresIn: this.configService.get('jwtExpiresIn'),
+    });
+
+    await this.adminModelService.update(
+      { _id: admin._id },
+      { $set: { accessAt: new Date() } },
+      { upsert: false }
+    );
+
+    const adminObject = admin.toObject({ virtuals: true });
+    return { isNewUser, token, ...adminObject };
   }
 
-  async signup(param: AdminRegRequestDto) {
+  async signup(param: AdminRegRequestDto): Promise<Admin> {
     const admin = await this.adminModelService.findByEmail(param.email);
     if (admin) {
       throw new AuthServiceError(
@@ -20,13 +75,14 @@ export class AuthorizationService {
         HttpStatus.FORBIDDEN
       );
     }
-    const dto = await this.adminModelService.create({
+
+    const hashedPassword = await hashPassword(param.password);
+    const dto: Admin = await this.adminModelService.create({
       email: param.email,
-      password: param.password,
+      password: hashedPassword,
       name: param.name,
       role: AdminRoleMap.NONE,
     });
-    console.log(dto);
     return dto;
   }
 }

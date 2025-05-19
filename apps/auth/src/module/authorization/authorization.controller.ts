@@ -7,21 +7,29 @@ import {
   AdminRegResponseDto,
 } from '@libs/interfaces/auth/auth.dto';
 import { AuthorizationService } from './authorization.service';
+import { Admin } from '@libs/database/schemas/admin.schema';
 
 @Controller()
 export class AuthorizationController {
   constructor(private readonly authService: AuthorizationService) {}
   @MessagePattern('adminLogin')
   async signin(param: AdminLoginRequestDto): Promise<AdminLoginResponseDto> {
-    console.log(param);
-    const result: AdminLoginResponseDto = null;
-    return result;
+    const result: Partial<Admin> & { isNewUser: boolean; token: string } =
+      await this.authService.signin(param);
+    return {
+      email: result.email,
+      name: result.name,
+      role: result.role,
+      isNewUser: result.isNewUser,
+      token: result.token,
+    };
   }
   @MessagePattern('adminRegistration')
   async signup(param: AdminRegRequestDto): Promise<AdminRegResponseDto> {
-    console.log(param);
-    await this.authService.signup(param);
-    const result: AdminRegResponseDto = null;
-    return result;
+    const result: Admin = await this.authService.signup(param);
+    return {
+      email: result.email,
+      name: result.name,
+    };
   }
 }
