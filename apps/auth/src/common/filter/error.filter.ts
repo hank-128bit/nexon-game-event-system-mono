@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { AuthServiceLogger } from '../logger/logger';
-import { AuthServiceError } from '@libs/interfaces/error/auth_service.error';
+import { AuthServiceError } from '../error/auth_service.error';
 
 @Injectable()
 @Catch()
