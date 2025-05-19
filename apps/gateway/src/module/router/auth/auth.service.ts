@@ -4,9 +4,16 @@ import { firstValueFrom } from 'rxjs';
 import {
   AdminLoginRequestDto,
   AdminLoginResponseDto,
+} from '@libs/interfaces/auth/admin_login.dto';
+import {
   AdminRegRequestDto,
   AdminRegResponseDto,
-} from '@libs/interfaces/auth/auth.dto';
+} from '@libs/interfaces/auth/admin_registration.dto';
+import {
+  UpdateRoleRequestDto,
+  UpdateRoleResponseDto,
+} from '@libs/interfaces/auth/update_role.dto';
+import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
 
 @Injectable()
 export class AuthRouterService {
@@ -28,6 +35,16 @@ export class AuthRouterService {
     const pattern = 'adminRegistration';
     const result = await firstValueFrom(
       this.authClientProxy.send<AdminRegResponseDto>(pattern, param)
+    );
+    return result;
+  }
+
+  async updateRole(
+    param: ITokenPayload & UpdateRoleRequestDto
+  ): Promise<UpdateRoleResponseDto> {
+    const pattern = 'updateRole';
+    const result = await firstValueFrom(
+      this.authClientProxy.send<UpdateRoleResponseDto>(pattern, param)
     );
     return result;
   }

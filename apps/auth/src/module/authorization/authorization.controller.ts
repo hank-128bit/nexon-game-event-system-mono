@@ -3,11 +3,18 @@ import { MessagePattern } from '@nestjs/microservices';
 import {
   AdminLoginRequestDto,
   AdminLoginResponseDto,
+} from '@libs/interfaces/auth/admin_login.dto';
+import {
   AdminRegRequestDto,
   AdminRegResponseDto,
-} from '@libs/interfaces/auth/auth.dto';
+} from '@libs/interfaces/auth/admin_registration.dto';
 import { AuthorizationService } from './authorization.service';
 import { Admin } from '@libs/database/schemas/admin.schema';
+import {
+  UpdateRoleRequestDto,
+  UpdateRoleResponseDto,
+} from '@libs/interfaces/auth/update_role.dto';
+import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
 
 @Controller()
 export class AuthorizationController {
@@ -30,6 +37,16 @@ export class AuthorizationController {
     return {
       email: result.email,
       name: result.name,
+    };
+  }
+  @MessagePattern('updateRole')
+  async updateRole(
+    param: ITokenPayload & UpdateRoleRequestDto
+  ): Promise<UpdateRoleResponseDto> {
+    const result: Admin = await this.authService.updateRole(param);
+    return {
+      targetEmail: result.email,
+      targetRole: result.role,
     };
   }
 }

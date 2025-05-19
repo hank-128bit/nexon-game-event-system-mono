@@ -4,11 +4,19 @@ import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
   AdminLoginRequestDto,
   AdminLoginResponseDto,
+} from '@libs/interfaces/auth/admin_login.dto';
+import {
   AdminRegRequestDto,
   AdminRegResponseDto,
-} from '@libs/interfaces/auth/auth.dto';
-import { GuestAPI } from '../../../common/decorator/roles.decorator';
+} from '@libs/interfaces/auth/admin_registration.dto';
 import { IgnoreAuthGuard } from '../../../common/guard/ignore_guard.decorator';
+import { AdminAPI, GuestAPI } from '../../../common/decorator/roles.decorator';
+import {
+  UpdateRoleRequestDto,
+  UpdateRoleResponseDto,
+} from '@libs/interfaces/auth/update_role.dto';
+import { VerifiedPayload } from '../../../common/decorator/payload.decorator';
+import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
 
 @Controller('auth')
 export class AuthRouterController {
@@ -24,6 +32,7 @@ export class AuthRouterController {
     description: '관리자 로그인 성공',
     type: AdminLoginResponseDto,
   })
+  @GuestAPI()
   @IgnoreAuthGuard()
   public async adminLogin(
     @Body() body: AdminLoginRequestDto
@@ -45,12 +54,38 @@ export class AuthRouterController {
     description: '관리자 가입 성공',
     type: AdminRegResponseDto,
   })
+  @GuestAPI()
   @IgnoreAuthGuard()
   public async adminRegistration(
     @Body() body: AdminRegRequestDto
   ): Promise<AdminRegResponseDto> {
     const response: AdminRegResponseDto =
       await this.authRouterService.adminRegistration(body);
+    return response;
+  }
+
+  @Post('update_role')
+  @ApiOperation({
+    summary: '권한 업데이트 API',
+    description: '권한 설정(마스터 관리자용)',
+  })
+  @ApiBody({ type: UpdateRoleRequestDto })
+  @ApiResponse({
+    status: 200,
+    description: '권한 설정 성공',
+    type: UpdateRoleResponseDto,
+  })
+  @AdminAPI()
+  public async updateRole(
+    @VerifiedPayload() payload: ITokenPayload,
+    @Body() body: UpdateRoleRequestDto
+  ): Promise<UpdateRoleResponseDto> {
+    const param: ITokenPayload & UpdateRoleRequestDto = {
+      ...body,
+      ...payload,
+    };
+    const response: UpdateRoleResponseDto =
+      await this.authRouterService.updateRole(param);
     return response;
   }
 }

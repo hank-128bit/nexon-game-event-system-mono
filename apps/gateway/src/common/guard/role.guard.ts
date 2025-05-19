@@ -21,7 +21,7 @@ export class RolesGuard implements CanActivate {
     }
     /** API 요청 가능 여부를 검증한 후 컨텍스트에 저장 -> RoleInterceptor 에서 롤 기반 API 최종 처리 */
     const validated = this.validateRoles(
-      user?.admin?.role ?? AdminRoleMap.NONE,
+      user?.role ?? AdminRoleMap.NONE,
       context
     );
     ctx.set('isAvailable', validated);
