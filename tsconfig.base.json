@@ -19,7 +19,8 @@
     "paths": {
       "@libs/constants/*": ["libs/constants/src/*"],
       "@libs/database/*": ["libs/database/src/*"],
-      "@libs/interfaces/*": ["libs/interfaces/src/*"]
+      "@libs/interfaces/*": ["libs/interfaces/src/*"],
+      "@libs/redis/*": ["libs/redis/src/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

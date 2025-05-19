@@ -1,6 +1,6 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientProxy, TcpStatus } from '@nestjs/microservices';
-import { GatewayLogger } from '../common/logger/logger';
+import { GatewayLogger } from './common/logger/logger';
 
 @Injectable()
 export class AppService implements OnModuleInit {

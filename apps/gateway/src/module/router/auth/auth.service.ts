@@ -4,6 +4,8 @@ import { firstValueFrom } from 'rxjs';
 import {
   AdminLoginRequestDto,
   AdminLoginResponseDto,
+  AdminRegRequestDto,
+  AdminRegResponseDto,
 } from '@libs/interfaces/auth/auth.dto';
 
 @Injectable()
@@ -16,6 +18,16 @@ export class AuthRouterService {
     const pattern = 'adminLogin';
     const result = await firstValueFrom(
       this.authClientProxy.send<AdminLoginResponseDto>(pattern, param)
+    );
+    return result;
+  }
+
+  async adminRegistration(
+    param: AdminRegRequestDto
+  ): Promise<AdminRegResponseDto> {
+    const pattern = 'adminRegistration';
+    const result = await firstValueFrom(
+      this.authClientProxy.send<AdminRegResponseDto>(pattern, param)
     );
     return result;
   }

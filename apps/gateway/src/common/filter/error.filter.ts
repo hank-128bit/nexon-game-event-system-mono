@@ -3,12 +3,13 @@ import {
   Catch,
   ExceptionFilter,
   HttpException,
+  HttpStatus,
   Injectable,
 } from '@nestjs/common';
 import { BaseError } from '@libs/interfaces/base.error';
 import { GatewayLogger } from '../logger/logger';
 import _ from 'lodash';
-
+import { RpcResponseError } from '../error/rpc.response.error';
 @Injectable()
 @Catch(Error)
 export class ErrorFilter implements ExceptionFilter {
@@ -45,8 +46,20 @@ export class ErrorFilter implements ExceptionFilter {
       });
     }
 
+    if (exception instanceof RpcResponseError) {
+      this.logger.error(
+        `${exception.service} 서버에서 에러가 발생했습니다.\n${errorName}: ${errorMessage}`,
+        exception?.stack ? exception.stack : exception
+      );
+
+      return response.status(exception.code).json({
+        statusCode: exception.code,
+        message: errorMessage,
+      });
+    }
+
     this.logger.error(
-      `예상치 못한 예외가 발생했습니다. ${errorName}: ${errorMessage}\n`,
+      `예상치 못한 예외가 발생했습니다. ${errorName}: ${errorMessage}`,
       exception?.stack ? exception.stack : exception
     );
 

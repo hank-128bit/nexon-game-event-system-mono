@@ -1,2 +1,2 @@
-export * from './base/base-model.service';
+export * from './model/base.model';
 export * from './schemas/admin.schema';

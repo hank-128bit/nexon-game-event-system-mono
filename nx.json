@@ -23,7 +23,12 @@
           "watchDepsName": "watch-deps"
         }
       },
-      "exclude": ["libs/database/*", "libs/constants/*", "libs/interfaces/*"]
+      "exclude": [
+        "libs/database/*",
+        "libs/constants/*",
+        "libs/interfaces/*",
+        "libs/redis/*"
+      ]
     },
     {
       "plugin": "@nx/webpack/plugin",
@@ -43,7 +48,12 @@
     },
     {
       "plugin": "@nx/js/typescript",
-      "include": ["libs/database/*", "libs/constants/*", "libs/interfaces/*"],
+      "include": [
+        "libs/database/*",
+        "libs/constants/*",
+        "libs/interfaces/*",
+        "libs/redis/*"
+      ],
       "options": {
         "typecheck": {
           "targetName": "typecheck"
