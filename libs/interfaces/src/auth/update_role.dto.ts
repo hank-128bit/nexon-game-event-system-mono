@@ -8,12 +8,24 @@ export class UpdateRoleRequestDto extends BaseRequestDTO {
     description: '이메일',
   })
   @IsEmail()
-  email!: string;
+  targetEmail!: string;
 
   @ApiProperty({
     description: '타겟 권한 타입',
   })
   @IsEnum(AdminRoleList)
-  targeRole!: AdminRole;
+  targetRole!: AdminRole;
 }
-export class UpdateRoleResponseDto {}
+export class UpdateRoleResponseDto {
+  @ApiProperty({
+    description: '이메일',
+  })
+  @IsEmail()
+  targetEmail!: string;
+
+  @ApiProperty({
+    description: '업데이트 후 권한 타입',
+  })
+  @IsEnum(AdminRoleList)
+  targetRole!: AdminRole;
+}
