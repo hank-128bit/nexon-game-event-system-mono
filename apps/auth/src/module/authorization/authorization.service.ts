@@ -2,7 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { AdminLoginRequestDto } from '@libs/interfaces/auth/admin_login.dto';
 import { AdminRegRequestDto } from '@libs/interfaces/auth/admin_registration.dto';
 import { AdminRoleMap } from '@libs/constants/admin.role';
-import { AdminModelService } from '../database/model/admin/admin.model.service';
+import { AdminModelService } from '@libs/database/model/admin/admin.model.service';
 import { AuthServiceError } from '../../common/error/auth_service.error';
 import { Admin } from '@libs/database/schemas/admin.schema';
 import { comparePassword, hashPassword } from '../../common/util/hash/hash';
@@ -12,7 +12,7 @@ import { ConfigService } from '@nestjs/config';
 import { UpdateRoleRequestDto } from '@libs/interfaces/auth/update_role.dto';
 import { PlayerLoginRequestDto } from '@libs/interfaces/auth/player_login.dto';
 import { Player } from '@libs/database/schemas/player.schema';
-import { PlayerModelService } from '../database/model/player/player.model.service';
+import { PlayerModelService } from '@libs/database/model/player/player.model.service';
 
 @Injectable()
 export class AuthorizationService {

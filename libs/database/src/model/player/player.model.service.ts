@@ -1,8 +1,8 @@
-import { BaseModelService } from '@libs/database/model/base.model';
+import { BaseModelService } from '../../model/base.model';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Player, PlayerDocument } from '@libs/database/schemas/player.schema';
+import { Player, PlayerDocument } from '../../schemas/player.schema';
 
 @Injectable()
 export class PlayerModelService extends BaseModelService<PlayerDocument> {
