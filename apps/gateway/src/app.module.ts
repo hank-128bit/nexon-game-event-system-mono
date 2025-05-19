@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common';
+import {
+  BadRequestException,
+  MiddlewareConsumer,
+  Module,
+  ValidationPipe,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppService } from './app.service';
 import configuration from './config/configuration';
@@ -16,6 +21,7 @@ import { ErrorFilter } from './common/filter/error.filter';
 import { RedisModule } from '@libs/redis/redis.module';
 import { RedisOptions } from '@libs/redis/interfaces/redis-options.interface';
 import { RpcResponseInterceptor } from './common/interceptor/rpc.response.interceptor';
+import { EventRouterModule } from './module/router/event/event.module';
 
 @Module({
   imports: [
@@ -38,6 +44,7 @@ import { RpcResponseInterceptor } from './common/interceptor/rpc.response.interc
 
     /** Router */
     AuthRouterModule,
+    EventRouterModule,
   ],
   controllers: [],
   providers: [
@@ -55,6 +62,15 @@ import { RpcResponseInterceptor } from './common/interceptor/rpc.response.interc
       provide: APP_PIPE,
       useValue: new ValidationPipe({
         whitelist: true,
+        transform: true,
+        exceptionFactory: (errors) => {
+          const messages = errors.map(
+            (e) =>
+              `${e.property} - ${Object.values(e.constraints || {}).join(', ')}`
+          );
+          console.error('💥 Validation failed:', messages);
+          return new BadRequestException(messages);
+        },
       }),
     },
   ],
