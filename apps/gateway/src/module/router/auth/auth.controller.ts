@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthRouterService } from './auth.service';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import {
@@ -7,12 +7,8 @@ import {
   AdminRegRequestDto,
   AdminRegResponseDto,
 } from '@libs/interfaces/auth/auth.dto';
-import { BaseResponseBodyDTO } from '@libs/interfaces/base.dto';
-
-import { VerifiedPayload } from '../../../common/decorator/payload.decorator';
-import { JwtAuthGuard } from '../../../common/guard/jwt-auth.guard';
 import { GuestAPI } from '../../../common/decorator/roles.decorator';
-import { IVerifiedPayload } from '@libs/interfaces/payload/payload.interface';
+import { IgnoreAuthGuard } from '../../../common/guard/ignore_guard.decorator';
 
 @Controller('auth')
 export class AuthRouterController {
@@ -26,19 +22,16 @@ export class AuthRouterController {
   @ApiResponse({
     status: 200,
     description: '관리자 로그인 성공',
+    type: AdminLoginResponseDto,
   })
-  @UseGuards(JwtAuthGuard)
-  @GuestAPI()
+  @IgnoreAuthGuard()
   public async adminLogin(
-    @VerifiedPayload() payload: AdminLoginRequestDto
-  ): Promise<BaseResponseBodyDTO<AdminLoginResponseDto>> {
-    const result: AdminLoginResponseDto =
-      await this.authRouterService.adminLogin(payload);
+    @Body() body: AdminLoginRequestDto
+  ): Promise<AdminLoginResponseDto> {
+    const response: AdminLoginResponseDto =
+      await this.authRouterService.adminLogin(body);
 
-    return {
-      data: [result],
-      status: 200,
-    };
+    return response;
   }
 
   @Post('admin_registration')
@@ -50,17 +43,14 @@ export class AuthRouterController {
   @ApiResponse({
     status: 200,
     description: '관리자 가입 성공',
+    type: AdminRegResponseDto,
   })
-  @UseGuards(JwtAuthGuard)
-  @GuestAPI()
+  @IgnoreAuthGuard()
   public async adminRegistration(
     @Body() body: AdminRegRequestDto
-  ): Promise<BaseResponseBodyDTO<AdminRegResponseDto>> {
-    const result: AdminRegResponseDto =
+  ): Promise<AdminRegResponseDto> {
+    const response: AdminRegResponseDto =
       await this.authRouterService.adminRegistration(body);
-    return {
-      data: [result],
-      status: 200,
-    };
+    return response;
   }
 }
