@@ -34,26 +34,26 @@ export class ErrorFilter implements ExceptionFilter {
 
     if (exception instanceof HttpException) {
       return response.status(exception.getStatus()).json({
-        statusCode: exception.getStatus(),
+        status: exception.getStatus(),
         message: errorMessage,
       });
     }
 
     if (exception instanceof BaseError) {
       return response.status(exception.code).json({
-        statusCode: exception.code,
+        status: exception.code,
         message: exception.message,
       });
     }
 
     if (exception instanceof RpcResponseError) {
       this.logger.error(
-        `${exception.service} 서버에서 에러가 발생했습니다.\n${errorName}: ${errorMessage}`,
-        exception?.stack ? exception.stack : exception
+        `${exception.service} 서버에서 에러가 발생했습니다.\nMicroserviceError: ${errorMessage}`
+        // exception?.stack ? exception.stack : exception
       );
 
       return response.status(exception.code).json({
-        statusCode: exception.code,
+        status: exception.code,
         message: errorMessage,
       });
     }
@@ -63,8 +63,8 @@ export class ErrorFilter implements ExceptionFilter {
       exception?.stack ? exception.stack : exception
     );
 
-    return response.status(500).json({
-      statusCode: 500,
+    return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      status: HttpStatus.INTERNAL_SERVER_ERROR,
       message: '예상치 못한 예외가 발생했습니다.',
     });
   }

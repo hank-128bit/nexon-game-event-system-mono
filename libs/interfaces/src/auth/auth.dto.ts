@@ -9,14 +9,14 @@ export class AdminLoginRequestDto extends BaseRequestDTO {
   })
   @IsEmail()
   email!: string;
-}
-export class AdminLoginResponseDto {
+
   @ApiProperty({
-    description: '계정 ID',
+    description: '패스워드',
   })
   @IsString()
-  id!: string;
-
+  password!: string;
+}
+export class AdminLoginResponseDto {
   @ApiProperty({
     description: '이메일',
   })
@@ -67,4 +67,16 @@ export class AdminRegRequestDto extends BaseRequestDTO {
   @IsString()
   name!: string;
 }
-export class AdminRegResponseDto {}
+export class AdminRegResponseDto {
+  @ApiProperty({
+    description: '이메일',
+  })
+  @IsEmail()
+  email!: string;
+
+  @ApiProperty({
+    description: '이름',
+  })
+  @IsString()
+  name!: string;
+}

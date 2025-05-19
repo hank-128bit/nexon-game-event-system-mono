@@ -1,13 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument } from 'mongoose';
 import { AdminRole } from '@libs/constants/index';
-import dayjs from 'dayjs';
 
 export type AdminDocument = HydratedDocument<Admin>;
 
 @Schema({ timestamps: true })
 export class Admin extends Document {
   @Prop({ type: String, index: true, required: true })
+  username!: string;
+
+  @Prop({ type: String, required: true })
   email!: string;
 
   @Prop({ type: String, required: true })

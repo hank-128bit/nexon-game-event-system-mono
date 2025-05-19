@@ -14,6 +14,7 @@ import { ErrorFilter } from './common/filter/error.filter';
       isGlobal: true,
       load: [configuration],
     }),
+
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
