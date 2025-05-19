@@ -17,6 +17,10 @@ import {
 } from '@libs/interfaces/auth/update_role.dto';
 import { VerifiedPayload } from '../../../common/decorator/payload.decorator';
 import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
+import {
+  PlayerLoginRequestDto,
+  PlayerLoginResponseDto,
+} from '@libs/interfaces/auth/player_login.dto';
 
 @Controller('auth')
 export class AuthRouterController {
@@ -86,6 +90,27 @@ export class AuthRouterController {
     };
     const response: UpdateRoleResponseDto =
       await this.authRouterService.updateRole(param);
+    return response;
+  }
+
+  @Post('login_player')
+  @ApiOperation({
+    summary: '플레이어 게스트 로그인 API',
+    description: '플레이어 로그인(닉네임 중복 없을 시 자동가입)',
+  })
+  @ApiBody({ type: PlayerLoginRequestDto })
+  @ApiResponse({
+    status: 200,
+    description: '플레이어 로그인 성공',
+    type: PlayerLoginResponseDto,
+  })
+  @IgnoreAuthGuard()
+  public async loginPlayer(
+    @Body() body: PlayerLoginRequestDto
+  ): Promise<PlayerLoginResponseDto> {
+    const param: PlayerLoginRequestDto = body;
+    const response: PlayerLoginResponseDto =
+      await this.authRouterService.loginPlayer(param);
     return response;
   }
 }

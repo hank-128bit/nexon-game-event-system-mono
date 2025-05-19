@@ -15,6 +15,11 @@ import {
   UpdateRoleResponseDto,
 } from '@libs/interfaces/auth/update_role.dto';
 import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
+import {
+  PlayerLoginRequestDto,
+  PlayerLoginResponseDto,
+} from '@libs/interfaces/auth/player_login.dto';
+import { Player } from '@libs/database/schemas/player.schema';
 
 @Controller()
 export class AuthorizationController {
@@ -47,6 +52,18 @@ export class AuthorizationController {
     return {
       targetEmail: result.email,
       targetRole: result.role,
+    };
+  }
+  @MessagePattern('playerLogin')
+  async loginPlayer(
+    param: PlayerLoginRequestDto
+  ): Promise<PlayerLoginResponseDto> {
+    const result: Partial<Player> & { token: string } =
+      await this.authService.loginPlayer(param);
+    return {
+      nickname: result.nickname,
+      metadata: result.metadata,
+      token: result.token,
     };
   }
 }
