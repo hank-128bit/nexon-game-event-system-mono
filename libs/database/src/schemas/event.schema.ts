@@ -26,10 +26,10 @@ export class Event extends Document {
   creator!: string;
 
   @Prop({ type: Boolean, default: false })
-  isActive!: boolean;
+  isActive?: boolean;
 
   @Prop({ type: Number, default: RewardReceiveMap.MANUAL })
-  rewardReceiveType!: RewardReceiveType;
+  rewardReceiveType?: RewardReceiveType;
 
   @Prop({ type: Object, default: {} })
   metadata!: Record<string, any>;

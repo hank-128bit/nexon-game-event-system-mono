@@ -2,7 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class BaseRequestDTO {}
-
 export class BaseResponseBodyDTO<T> {
   @IsNotEmpty()
   @ApiProperty({
