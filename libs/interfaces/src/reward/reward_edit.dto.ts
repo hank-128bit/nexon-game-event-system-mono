@@ -8,17 +8,27 @@ import {
   IsString,
 } from 'class-validator';
 
-export class RewardAddRequestDto extends BaseRequestDTO {
+export class RewardEditRequestDto extends BaseRequestDTO {
+  @ApiProperty({ description: '보상 넘버' })
+  @IsNumber()
+  rewardId!: number;
+
   @ApiProperty({ description: '보상 이름' })
+  @IsOptional()
   @IsString()
-  nameKR!: string;
+  nameKR?: string;
+
+  @ApiProperty({ description: '보상 아이템 구성' })
+  @IsOptional()
+  @IsArray()
+  itemIds?: number[];
 
   @ApiProperty({ description: '메타데이터' })
-  @IsObject()
   @IsOptional()
+  @IsObject()
   metadata?: Record<string, any>;
 }
-export class RewardAddResponseDto {
+export class RewardEditResponseDto {
   @ApiProperty({ description: '보상 넘버' })
   @IsNumber()
   rewardId!: number;
@@ -26,16 +36,4 @@ export class RewardAddResponseDto {
   @ApiProperty({ description: '보상 이름' })
   @IsString()
   nameKR!: string;
-
-  @ApiProperty({ description: '보상 아이템 구성' })
-  @IsArray()
-  itemIds!: number[];
-
-  @ApiProperty({ description: '사용중인 이벤트' })
-  @IsArray()
-  usingEventIds!: number[];
-
-  @ApiProperty({ description: '메타데이터' })
-  @IsObject()
-  metadata!: Record<string, any>;
 }
