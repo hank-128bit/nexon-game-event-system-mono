@@ -6,3 +6,7 @@ PORT=5001
 # Database
 DB_URI=mongodb://localhost:27017
 DB_DATABASE=public
+
+# Redis
+REDIS_URL=redis://localhost:6379
+MAX_REDIS_CONNECTION=30

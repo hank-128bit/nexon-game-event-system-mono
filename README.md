@@ -19,11 +19,19 @@ $pnpm compose:up (<-> pnpm compose:downv)
 
 * mongodb 컨테이너 로컬 접속이 불가 시 "$vi /etc/hosts" 를 통해 127.0.0.1 mongo 라인을 추가 부탁드립니다.
 
+각 apps 에 .envsample 파일을 .env 로 변경해주시고, apps/gateway 와 apps/auth 의 .env JWT_SECRET 키값은 동일하게 일치시켜 주시기 바랍니다.
+
 $pnpm start:all
 
 - Gateway, Auth, Event 서비스를 동시에 실행합니다.
 
 ## 메세지
+
+- 초기 부트스트랩 단계에서 최고 권한(root@nexon.com/maplestory)계정 및 Item 6종, Event 1종, Reward 1종을 더미 생성합니다.
+
+- Admin 과 Player 도메인이 분리되어 있으며, 각각 Login 시 발급받은 토큰을 Header:Authorization 의 Bearer Token 방식으로 주입하여 API 요청을 시작하실 수 있습니다.
+
+- Swagger (/api/docs) API 문서를 작성해두었습니다.
 
 부족한 점과 아쉬운 점이 많이 남습니다. 하지만, 최대한 열심히 임하고자 하였습니다.
 감사합니다.
