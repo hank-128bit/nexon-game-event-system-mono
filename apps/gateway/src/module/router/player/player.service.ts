@@ -6,6 +6,10 @@ import {
   PlayerApplyResponseDto,
 } from '@libs/interfaces/player/player_apply.dto';
 import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
+import {
+  PlayerRewardListRequestDto,
+  PlayerRewardListResponseDto,
+} from '@libs/interfaces/player/player_reward_list.dto';
 
 @Injectable()
 export class PlayerRouterService {
@@ -32,5 +36,15 @@ export class PlayerRouterService {
       PlayerApplyRequestDto,
       PlayerApplyResponseDto
     >('player.apply', { ...param, ...payload });
+  }
+
+  async rewardList(
+    payload: ITokenPayload,
+    param: PlayerRewardListRequestDto
+  ): Promise<PlayerRewardListResponseDto> {
+    return this.sendRewardServiceRequest<
+      PlayerRewardListRequestDto,
+      PlayerRewardListResponseDto
+    >('player.rewardList', { ...param, ...payload });
   }
 }

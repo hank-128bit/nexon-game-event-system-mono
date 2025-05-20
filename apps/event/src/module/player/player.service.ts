@@ -1,4 +1,4 @@
-import { BadRequestException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { PlayerModelService } from '@libs/database/model/player/player.model.service';
 import _ from 'lodash';
 import {
@@ -12,6 +12,14 @@ import { PlayerRewardLogModelService } from '@libs/database/model/player_reward_
 import { RewardRequestMap } from '@libs/constants/reward.role';
 import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
 import { PlayerRewardRequestModelService } from '@libs/database/model/player_reward_request/player_reward_request.model.service';
+import {
+  RewardListRequestDto,
+  RewardListResponseDto,
+} from '@libs/interfaces/reward/reward_list.dto';
+import {
+  PlayerRewardListRequestDto,
+  PlayerRewardListResponseDto,
+} from '@libs/interfaces/player/player_reward_list.dto';
 @Injectable()
 export class PlayerService {
   constructor(
@@ -134,5 +142,33 @@ export class PlayerService {
       session.endSession();
       throw error;
     }
+  }
+  async rewardList(
+    param: PlayerRewardListRequestDto & ITokenPayload
+  ): Promise<PlayerRewardListResponseDto> {
+    const player = await this.playerModelService.findWithId(param.id);
+    if (!player) {
+      throw new EventServiceError(
+        '플레이어 정보를 찾을 수 없습니다.',
+        HttpStatus.NOT_FOUND
+      );
+    }
+
+    const receivedLogs = await this.playerRewardLogModelService.findAll({
+      playerId: player._id,
+    });
+
+    const delayedRequests = await this.playerRewardRequestModelService.findAll({
+      playerId: player._id,
+      status: { $nin: RewardRequestMap.ALLOWED },
+    });
+
+    // RewardListResponseDto 형식에 맞춰 결과 반환
+    const response: PlayerRewardListResponseDto = {
+      received: receivedLogs,
+      delayed: delayedRequests,
+    };
+
+    return response;
   }
 }

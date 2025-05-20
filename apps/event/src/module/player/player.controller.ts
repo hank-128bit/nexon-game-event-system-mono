@@ -5,6 +5,10 @@ import {
   PlayerApplyRequestDto,
   PlayerApplyResponseDto,
 } from '@libs/interfaces/player/player_apply.dto';
+import {
+  PlayerRewardListRequestDto,
+  PlayerRewardListResponseDto,
+} from '@libs/interfaces/player/player_reward_list.dto';
 import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
 @Controller()
 export class PlayerController {
@@ -14,6 +18,13 @@ export class PlayerController {
     param: PlayerApplyRequestDto & ITokenPayload
   ): Promise<PlayerApplyResponseDto> {
     const result = await this.playerService.apply(param);
+    return result;
+  }
+  @MessagePattern('player.rewardList')
+  async rewardList(
+    param: PlayerRewardListRequestDto & ITokenPayload
+  ): Promise<PlayerRewardListResponseDto> {
+    const result = await this.playerService.rewardList(param);
     return result;
   }
 }
