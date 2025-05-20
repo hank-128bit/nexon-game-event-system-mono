@@ -7,6 +7,8 @@ import { APP_FILTER } from '@nestjs/core';
 import { ErrorFilter } from './common/filter/error.filter';
 import { EventModule } from './module/event/event.module';
 import { RewardModule } from './module/reward/reward.module';
+import { RedisModule } from '@libs/redis/redis.module';
+import { RedisOptions } from '@libs/redis/interfaces';
 
 @Module({
   imports: [
@@ -26,6 +28,12 @@ import { RewardModule } from './module/reward/reward.module';
         replicaSet: 'rs0',
         maxPoolSize: 20,
       }),
+    }),
+
+    RedisModule.forRootAsync({
+      useFactory: (configService: ConfigService) =>
+        configService.get<RedisOptions>('redisConfig')!,
+      inject: [ConfigService],
     }),
 
     EventModule,

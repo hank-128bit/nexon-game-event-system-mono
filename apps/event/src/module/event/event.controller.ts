@@ -1,5 +1,5 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern } from '@nestjs/microservices';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
 import { EventService } from './event.service';
 import {
   EventListRequestDto,
@@ -9,6 +9,10 @@ import {
   EventAddRequestDto,
   EventAddResponseDto,
 } from '@libs/interfaces/event/event_add.dto';
+import {
+  EventEditRequestDto,
+  EventEditResponseDto,
+} from '@libs/interfaces/event/event_edit.dto';
 
 @Controller()
 export class EventController {
@@ -18,10 +22,15 @@ export class EventController {
     const result = await this.eventService.list(param);
     return result;
   }
-
   @MessagePattern('event.add')
   async add(param: EventAddRequestDto): Promise<EventAddResponseDto> {
     const result = await this.eventService.add(param);
+    return result;
+  }
+
+  @MessagePattern('event.edit')
+  async edit(param: EventEditRequestDto): Promise<EventEditResponseDto> {
+    const result = await this.eventService.edit(param);
     return result;
   }
 }

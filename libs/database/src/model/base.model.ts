@@ -4,6 +4,9 @@ import {
   FilterQuery,
   UpdateQuery,
   QueryOptions,
+  ClientSession,
+  UpdateWithAggregationPipeline,
+  MongooseUpdateQueryOptions,
 } from 'mongoose';
 import { Injectable, NotFoundException } from '@nestjs/common';
 
@@ -81,5 +84,19 @@ export abstract class BaseModelService<
 
   async countDocuments(filter?: FilterQuery<T>): Promise<number> {
     return this.model.countDocuments(filter || ({} as FilterQuery<T>)).exec();
+  }
+
+  /** Mongoose 세션을 시작합니다. 트랜잭션 처리에 사용됩니다. */
+  async startSession(): Promise<ClientSession> {
+    return this.model.startSession();
+  }
+
+  /** 여러 도큐먼트를 업데이트합니다. 트랜잭션 세션 옵션을 받을 수 있습니다. */
+  async updateMany(
+    filter: FilterQuery<T>,
+    update: UpdateQuery<T> | UpdateWithAggregationPipeline,
+    options?: MongooseUpdateQueryOptions
+  ): Promise<any> {
+    return this.model.updateMany(filter, update, options);
   }
 }

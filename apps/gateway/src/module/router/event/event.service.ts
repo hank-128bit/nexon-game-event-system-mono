@@ -10,6 +10,10 @@ import {
   EventListResponseDto,
 } from '@libs/interfaces/event/event_list.dto';
 import { ITokenPayload } from '@libs/interfaces/payload/payload.interface';
+import {
+  EventEditRequestDto,
+  EventEditResponseDto,
+} from '@libs/interfaces/event/event_edit.dto';
 
 @Injectable()
 export class EventRouterService {
@@ -44,5 +48,12 @@ export class EventRouterService {
       EventListRequestDto,
       EventListResponseDto
     >('event.list', param);
+  }
+
+  async edit(param: EventEditRequestDto): Promise<EventEditResponseDto> {
+    return this.sendEventServiceRequest<
+      EventEditRequestDto,
+      EventEditResponseDto
+    >('event.edit', param);
   }
 }

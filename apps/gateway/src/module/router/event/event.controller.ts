@@ -15,6 +15,10 @@ import {
   EventListRequestDto,
   EventListResponseDto,
 } from '@libs/interfaces/event/event_list.dto';
+import {
+  EventEditRequestDto,
+  EventEditResponseDto,
+} from '@libs/interfaces/event/event_edit.dto';
 
 @Controller('event')
 export class EventRouterController {
@@ -42,7 +46,6 @@ export class EventRouterController {
 
     return response;
   }
-
   @Post('list')
   @ApiOperation({
     summary: '이벤트 리스트 API',
@@ -59,6 +62,27 @@ export class EventRouterController {
     @Body() body: EventListRequestDto
   ): Promise<EventListResponseDto> {
     const response: EventListResponseDto = await this.eventRouterService.list(
+      body
+    );
+
+    return response;
+  }
+  @Post('edit')
+  @ApiOperation({
+    summary: '이벤트 업데이트 API',
+    description: '이벤트 설정 변경',
+  })
+  @ApiBody({ type: EventEditRequestDto })
+  @ApiResponse({
+    status: 200,
+    description: '이벤트 업데이트 성공',
+    type: EventEditResponseDto,
+  })
+  @OperatorAPI()
+  public async edit(
+    @Body() body: EventEditRequestDto
+  ): Promise<EventEditResponseDto> {
+    const response: EventEditResponseDto = await this.eventRouterService.edit(
       body
     );
 
