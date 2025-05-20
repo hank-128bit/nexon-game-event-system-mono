@@ -16,4 +16,8 @@ export class PlayerModelService extends BaseModelService<PlayerDocument> {
   async findByNickname(nickname: string): Promise<PlayerDocument | null> {
     return this.playerModel.findOne({ nickname }).exec();
   }
+
+  async findWithId(id: string): Promise<PlayerDocument | null> {
+    return this.playerModel.findOne({ _id: id }).exec();
+  }
 }

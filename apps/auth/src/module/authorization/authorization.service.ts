@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, OnModuleInit } from '@nestjs/common';
 import { AdminLoginRequestDto } from '@libs/interfaces/auth/admin_login.dto';
 import { AdminRegRequestDto } from '@libs/interfaces/auth/admin_registration.dto';
 import { AdminRoleMap } from '@libs/constants/admin.role';
@@ -15,13 +15,28 @@ import { Player } from '@libs/database/schemas/player.schema';
 import { PlayerModelService } from '@libs/database/model/player/player.model.service';
 
 @Injectable()
-export class AuthorizationService {
+export class AuthorizationService implements OnModuleInit {
   constructor(
     private readonly adminModelService: AdminModelService,
     private readonly playerModelService: PlayerModelService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService
   ) {}
+  async onModuleInit() {
+    const stage = this.configService.get('stage');
+    if (stage === 'local') {
+      const adminCount = await this.adminModelService.countDocuments();
+      if (adminCount === 0) {
+        /** 아이템 더미 세팅 */
+        const dummyItems = [
+          { email: 'root@nexon.com', password: hashPassword('maplestory') },
+        ];
+        for (let i = 0; i < dummyItems.length; i++) {
+          await this.adminModelService.create(dummyItems[i]);
+        }
+      }
+    }
+  }
 
   async signin(
     param: AdminLoginRequestDto
@@ -126,6 +141,7 @@ export class AuthorizationService {
         password: await hashPassword(param.password),
         metadata: {
           stage: 0,
+          postBox: [],
         },
       });
     }
