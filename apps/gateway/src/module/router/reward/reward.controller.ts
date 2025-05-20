@@ -13,6 +13,10 @@ import {
   RewardListRequestDto,
   RewardListResponseDto,
 } from '@libs/interfaces/reward/reward_list.dto';
+import {
+  RewardEditRequestDto,
+  RewardEditResponseDto,
+} from '@libs/interfaces/reward/reward_edit.dto';
 
 @Controller('reward')
 export class RewardRouterController {
@@ -55,6 +59,28 @@ export class RewardRouterController {
     @Body() body: RewardListRequestDto
   ): Promise<RewardListResponseDto> {
     const response: RewardListResponseDto = await this.rewardRouterService.list(
+      body
+    );
+
+    return response;
+  }
+
+  @Post('edit')
+  @ApiOperation({
+    summary: '보상 구성 변경 API',
+    description: '보상 구성 아이템 변경',
+  })
+  @ApiBody({ type: RewardEditRequestDto })
+  @ApiResponse({
+    status: 200,
+    description: '보상 구성 변경 성공',
+    type: RewardEditResponseDto,
+  })
+  @AuditorAPI()
+  public async edit(
+    @Body() body: RewardEditRequestDto
+  ): Promise<RewardEditResponseDto> {
+    const response: RewardEditResponseDto = await this.rewardRouterService.edit(
       body
     );
 
