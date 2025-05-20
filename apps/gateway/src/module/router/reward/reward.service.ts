@@ -9,6 +9,10 @@ import {
   RewardListRequestDto,
   RewardListResponseDto,
 } from '@libs/interfaces/reward/reward_list.dto';
+import {
+  RewardEditRequestDto,
+  RewardEditResponseDto,
+} from '@libs/interfaces/reward/reward_edit.dto';
 
 @Injectable()
 export class RewardRouterService {
@@ -39,5 +43,12 @@ export class RewardRouterService {
       RewardListRequestDto,
       RewardListResponseDto
     >('reward.list', param);
+  }
+
+  async edit(param: RewardEditRequestDto): Promise<RewardEditResponseDto> {
+    return this.sendRewardServiceRequest<
+      RewardEditRequestDto,
+      RewardEditResponseDto
+    >('reward.edit', param);
   }
 }

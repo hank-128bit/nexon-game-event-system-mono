@@ -6,6 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PlayerModelModule } from '@libs/database/model/player/player.model.module';
 import { RewardModelModule } from '@libs/database/model/reward/reward.model.module';
+import { ItemModelModule } from '@libs/database/model/item/item.model.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { RewardModelModule } from '@libs/database/model/reward/reward.model.modu
     AdminModelModule,
     PlayerModelModule,
     RewardModelModule,
+    ItemModelModule,
   ],
   controllers: [RewardController],
   providers: [RewardService],

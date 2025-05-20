@@ -13,7 +13,7 @@ export class Reward extends Document {
   nameKR!: string;
 
   @Prop({ type: Array, default: [] })
-  items!: Item[];
+  itemIds!: number[];
 
   @Prop({ type: Array, default: [] })
   usingEventIds!: number[];

@@ -9,6 +9,10 @@ import {
   RewardAddRequestDto,
   RewardAddResponseDto,
 } from '@libs/interfaces/reward/reward_add.dto';
+import {
+  RewardEditRequestDto,
+  RewardEditResponseDto,
+} from '@libs/interfaces/reward/reward_edit.dto';
 
 @Controller()
 export class RewardController {
@@ -18,10 +22,14 @@ export class RewardController {
     const result = await this.rewardService.list(param);
     return result;
   }
-
   @MessagePattern('reward.add')
   async add(param: RewardAddRequestDto): Promise<RewardAddResponseDto> {
     const result = await this.rewardService.add(param);
+    return result;
+  }
+  @MessagePattern('reward.edit')
+  async edit(param: RewardEditRequestDto): Promise<RewardEditResponseDto> {
+    const result = await this.rewardService.edit(param);
     return result;
   }
 }

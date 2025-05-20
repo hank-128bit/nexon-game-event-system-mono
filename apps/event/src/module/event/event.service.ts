@@ -15,7 +15,6 @@ import {
 import _ from 'lodash';
 import { EventServiceError } from '../../common/error/event_service.error';
 import { RewardModelService } from '@libs/database/model/reward/reward.model.service';
-import { ClientSession } from 'mongoose';
 
 @Injectable()
 export class EventService {

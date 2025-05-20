@@ -3,10 +3,13 @@ import { Document, HydratedDocument } from 'mongoose';
 
 export type ItemDocument = HydratedDocument<Item>;
 
-@Schema({ timestamps: true })
+@Schema()
 export class Item extends Document {
-  @Prop({ type: Number, index: true, required: true })
+  @Prop({ type: Number, index: true, unique: true })
   itemId!: number;
+
+  @Prop({ type: String })
+  itemType!: string;
 
   @Prop({ type: String, required: true })
   nameKR!: string;
