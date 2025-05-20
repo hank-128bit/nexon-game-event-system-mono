@@ -124,6 +124,9 @@ export class AuthorizationService {
       player = await this.playerModelService.create({
         nickname: param.nickname,
         password: await hashPassword(param.password),
+        metadata: {
+          stage: 0,
+        },
       });
     }
 
