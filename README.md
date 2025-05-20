@@ -1,13 +1,26 @@
 # NexonGameEventSystemMono
 
+## 소개
+
+- 3개의 마이크로서비스를 위해 Nx 모노리포 구성을 채택했습니다.
+- Apps 에는 Gateway, Auth, Event 서비스가 구성되어있고, Libs 에 각 서비스들이 사용할 Model, DTO, Interface 등으로 구성했습니다.
+
 ## 실행 방법
+
+기본적으로 Nx 혹은 Docker Command 를 사용하실 수 있으나, 숏컷을 작성해두었습니다.
 
 $pnpm install
 
 - 패키지를 인스톨 합니다.
-  $pnpm compose:up (<-> pnpm compose:downv)
+
+$pnpm compose:up (<-> pnpm compose:downv)
+
 - 컨테이너를 실행합니다.
-  $pnpm start:all
+
+* mongodb 컨테이너 로컬 접속이 불가 시 "$vi /etc/hosts" 를 통해 127.0.0.1 mongo 라인을 추가 부탁드립니다.
+
+$pnpm start:all
+
 - Gateway, Auth, Event 서비스를 동시에 실행합니다.
 
 ## 메세지
