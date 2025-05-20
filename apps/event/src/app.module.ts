@@ -9,6 +9,7 @@ import { EventModule } from './module/event/event.module';
 import { RewardModule } from './module/reward/reward.module';
 import { RedisModule } from '@libs/redis/redis.module';
 import { RedisOptions } from '@libs/redis/interfaces';
+import { PlayerModule } from './module/player/player.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { RedisOptions } from '@libs/redis/interfaces';
 
     EventModule,
     RewardModule,
+    PlayerModule,
   ],
   providers: [
     AppService,

@@ -76,7 +76,7 @@ export class RewardRouterController {
     description: '보상 구성 변경 성공',
     type: RewardEditResponseDto,
   })
-  @AuditorAPI()
+  @OperatorAPI()
   public async edit(
     @Body() body: RewardEditRequestDto
   ): Promise<RewardEditResponseDto> {

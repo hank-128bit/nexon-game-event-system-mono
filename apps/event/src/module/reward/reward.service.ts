@@ -28,8 +28,8 @@ export class RewardService implements OnModuleInit {
   async onModuleInit() {
     const stage = this.configService.get('stage');
     if (stage === 'local') {
-      const count = await this.itemModelService.countDocuments();
-      if (count === 0) {
+      const itemCount = await this.itemModelService.countDocuments();
+      if (itemCount === 0) {
         /** 아이템 더미 세팅 */
         const dummyItems = [
           { itemType: 'GOODS', nameKR: '보석 100개 주머니', count: 100 },
@@ -41,6 +41,21 @@ export class RewardService implements OnModuleInit {
         ];
         for (let i = 0; i < dummyItems.length; i++) {
           await this.itemModelService.create(dummyItems[i]);
+        }
+      }
+      const rewardCount = await this.rewardModelService.countDocuments();
+      if (rewardCount === 0) {
+        /** 아이템 더미 세팅 */
+        const dummyItems = [
+          {
+            nameKR: '스테이지999 돌파 보상!',
+            itemIds: [1],
+            usingEventIds: [1],
+            metadata: {},
+          },
+        ];
+        for (let i = 0; i < dummyItems.length; i++) {
+          await this.rewardModelService.create(dummyItems[i]);
         }
       }
     }

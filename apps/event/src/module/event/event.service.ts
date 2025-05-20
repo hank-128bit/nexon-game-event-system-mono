@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable, OnModuleInit } from '@nestjs/common';
 import { EventModelService } from '@libs/database/model/event/event.model.service';
 import {
   EventAddRequestDto,
@@ -15,13 +15,45 @@ import {
 import _ from 'lodash';
 import { EventServiceError } from '../../common/error/event_service.error';
 import { RewardModelService } from '@libs/database/model/reward/reward.model.service';
+import { ConfigService } from '@nestjs/config';
+import { RewardReceiveMap } from '@libs/constants/reward.role';
+import { Event } from '@libs/database/schemas/event.schema';
+import dayjs from 'dayjs';
 
 @Injectable()
-export class EventService {
+export class EventService implements OnModuleInit {
   constructor(
+    private readonly configService: ConfigService,
     private readonly eventModelService: EventModelService,
     private readonly rewardModelService: RewardModelService
   ) {}
+
+  async onModuleInit() {
+    const stage = this.configService.get('stage');
+    if (stage === 'local') {
+      const count = await this.eventModelService.countDocuments();
+      if (count === 0) {
+        /** 아이템 더미 세팅 */
+        const dummyItems = [
+          {
+            eventName: '스테이지999 클리어 이벤트!',
+            startDate: '2025-05-19T00:00:00.118Z',
+            endDate: '2025-06-01T00:00:00.118Z',
+            isActive: true,
+            rewardReceiveType: RewardReceiveMap.AUTOMATIC,
+            creator: 'root@maplestory.com',
+            metadata: {
+              condition: [{ type: 'stage', value: '999' }],
+              rewardPackageIds: [1],
+            },
+          },
+        ];
+        for (let i = 0; i < dummyItems.length; i++) {
+          await this.eventModelService.create(dummyItems[i]);
+        }
+      }
+    }
+  }
 
   async add(param: EventAddRequestDto): Promise<EventAddResponseDto> {
     const event = await this.eventModelService.create(param);
@@ -115,5 +147,15 @@ export class EventService {
       session.endSession();
       throw error;
     }
+  }
+  async getCurrentEvent(): Promise<Event[]> {
+    const now = dayjs().toDate();
+    const currentEvents = await this.eventModelService.findAll({
+      startDate: { $lte: now },
+      endDate: { $gte: now },
+      isActive: true,
+    });
+
+    return currentEvents;
   }
 }

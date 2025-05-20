@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument } from 'mongoose';
 
-export type AttendanceRewardDocument = HydratedDocument<AttendanceReward>;
+export type PlayerRewardLogDocument = HydratedDocument<PlayerRewardLog>;
 
 @Schema({ timestamps: true })
-export class AttendanceReward extends Document {
+export class PlayerRewardLog extends Document {
   @Prop({ type: Number, index: true, required: true })
   eventId!: number;
 
@@ -18,5 +18,5 @@ export class AttendanceReward extends Document {
   metadata!: Record<string, any>;
 }
 
-export const AttendanceRewardSchema =
-  SchemaFactory.createForClass(AttendanceReward);
+export const PlayerRewardLogSchema =
+  SchemaFactory.createForClass(PlayerRewardLog);
