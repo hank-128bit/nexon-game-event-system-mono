@@ -22,6 +22,7 @@ import { RedisModule } from '@libs/redis/redis.module';
 import { RedisOptions } from '@libs/redis/interfaces/redis-options.interface';
 import { RpcResponseInterceptor } from './common/interceptor/rpc.response.interceptor';
 import { EventRouterModule } from './module/router/event/event.module';
+import { RewardRouterModule } from './module/router/reward/reward.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { EventRouterModule } from './module/router/event/event.module';
     /** Router */
     AuthRouterModule,
     EventRouterModule,
+    RewardRouterModule,
   ],
   controllers: [],
   providers: [

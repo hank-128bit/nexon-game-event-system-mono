@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { APP_FILTER } from '@nestjs/core';
 import { ErrorFilter } from './common/filter/error.filter';
 import { EventModule } from './module/event/event.module';
+import { RewardModule } from './module/reward/reward.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { EventModule } from './module/event/event.module';
     }),
 
     EventModule,
+    RewardModule,
   ],
   providers: [
     AppService,
